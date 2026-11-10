@@ -16,7 +16,7 @@ import java.net.URL
 
 object OtaUpdateManager {
 
-    private const val UPDATE_URL = "https://raw.githubusercontent.com/vudatz/colorbat/main/version.json"
+    private const val UPDATE_URL = "https://raw.githubusercontent.com/tuskudo2375/titus-tran-colorbat/main/version.json"
 
     data class UpdateInfo(
         val versionCode: Int,

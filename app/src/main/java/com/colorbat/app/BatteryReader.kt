@@ -75,6 +75,7 @@ object BatteryReader {
         val model = Build.MODEL
         val device = Build.DEVICE
         val deviceName = when {
+            model.contains("PLG110", ignoreCase = true) || model.contains("Find X9 Pro", ignoreCase = true) || device.contains("PLG110", ignoreCase = true) || device.contains("findx9pro", ignoreCase = true) -> "OPPO Find X9 Pro (PLG110)"
             model.contains("CPH2651", ignoreCase = true) -> "OPPO Find X8 (CPH2651)"
             model.contains("2412DPC0AG", ignoreCase = true) || device.contains("rodin", ignoreCase = true) -> "POCO X7 Pro ($model)"
             model.contains("PGT-AN00", ignoreCase = true) || model.contains("PGT-N", ignoreCase = true) -> "HONOR Magic5 Pro ($model)"
@@ -303,7 +304,15 @@ object BatteryReader {
             ?: ShizukuHelper.readSysfsInt("/sys/class/power_supply/battery/charge_full_design")
             ?: ShizukuHelper.readSysfsInt("/sys/class/power_supply/mtk-battery/charge_full_design")
 
-        val designCapacityMah = customCap ?: when {
+        val isFindX9Pro = model.contains("PLG110", ignoreCase = true) ||
+            model.contains("Find X9 Pro", ignoreCase = true) ||
+            device.contains("PLG110", ignoreCase = true) ||
+            device.contains("findx9pro", ignoreCase = true)
+
+        // OPPO công bố dung lượng định mức 7290 mAh và dung lượng điển hình 7500 mAh.
+        // Model-specific values take precedence over generic sysfs nodes that may report
+        // per-cell or differently scaled values on this device.
+        val designCapacityMah = customCap ?: if (isFindX9Pro) 7290 else when {
             sysfsDesign != null && sysfsDesign > 10_000 -> sysfsDesign / 1000
             sysfsDesign != null && sysfsDesign > 1000 -> sysfsDesign
             model.contains("CPH2651") -> 5520
@@ -313,6 +322,7 @@ object BatteryReader {
         }
 
         val typicalCapacityMah = when {
+            isFindX9Pro -> 7500
             designCapacityMah == 5520 -> 5630
             designCapacityMah == 5100 -> 5450
             designCapacityMah == 6000 -> 6000

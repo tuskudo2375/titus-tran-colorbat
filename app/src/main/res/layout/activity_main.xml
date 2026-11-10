@@ -513,7 +513,7 @@
                             android:id="@+id/tvDeviceName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="OPPO Find X8 (CPH2651)"
+                            android:text="OPPO Find X9 Pro (PLG110)"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="@color/text_secondary" />
@@ -600,7 +600,7 @@
                             android:id="@+id/tvDesignCapacity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5.520 mAh"
+                            android:text="7,290 mAh"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="@color/text_secondary" />
@@ -623,7 +623,7 @@
                             android:id="@+id/tvTypicalCapacity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5.630 mAh"
+                            android:text="7,500 mAh"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="@color/text_secondary" />
@@ -724,12 +724,12 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Footer: Made with ❤️ by @vudatz - ColorBat v1.2.0 -->
+            <!-- Footer: Titus.Tran / ColorBat -->
             <TextView
                 android:id="@+id/tvFooter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Made with &#x2764;&#xFE0F; by @vudatz - ColorBat v1.2.0"
+                android:text="Made with &#x2764;&#xFE0F; by Titus.Tran - ColorBat v1.3.1"
                 android:textSize="12sp"
                 android:textColor="@color/text_secondary"
                 android:gravity="center"

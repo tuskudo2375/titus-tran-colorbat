@@ -283,7 +283,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             "1.2.0"
         }
-        tvFooter.text = "Made with ❤️ by @vudatz - ColorBat v$versionName"
+        tvFooter.text = "Made with ❤️ by Titus.Tran - ColorBat v$versionName"
     }
 
     private fun setupListeners() {
@@ -559,7 +559,7 @@ class MainActivity : AppCompatActivity() {
         switchLiveAlert.isChecked = prefs.getBoolean("live_alert_enabled", true)
         switchCycleAlert.isChecked = prefs.getBoolean("cycle_alert_enabled", false)
         etCycleLimit.setText(prefs.getInt("cycle_alert_limit", 1000).toString())
-        etCustomCapacity.setText(prefs.getInt("custom_capacity", 5520).toString())
+        etCustomCapacity.setText(prefs.getInt("custom_capacity", 0).takeIf { it > 0 }?.toString().orEmpty())
         cbBatteryReplaced.isChecked = prefs.getBoolean("battery_replaced", false)
         etReplaceDate.setText(prefs.getString("replace_date", ""))
 
@@ -572,23 +572,29 @@ class MainActivity : AppCompatActivity() {
             val liveAlert = switchLiveAlert.isChecked
             val alertEnabled = switchCycleAlert.isChecked
             val cycleLimit = etCycleLimit.text.toString().toIntOrNull() ?: 1000
-            val customCap = etCustomCapacity.text.toString().toIntOrNull() ?: 5520
+            val customCap = etCustomCapacity.text.toString().trim().toIntOrNull()?.takeIf { it in 1000..15000 }
             val isReplaced = cbBatteryReplaced.isChecked
             val replaceDate = etReplaceDate.text.toString().trim()
 
-            prefs.edit()
+            val editor = prefs.edit()
                 .putBoolean("dual_cell_enabled", dualCell)
                 .putBoolean("live_alert_enabled", liveAlert)
                 .putBoolean("cycle_alert_enabled", alertEnabled)
                 .putInt("cycle_alert_limit", cycleLimit)
-                .putInt("custom_capacity", customCap)
                 .putBoolean("battery_replaced", isReplaced)
                 .putString("replace_date", replaceDate)
-                .apply()
+            if (customCap != null) {
+                editor.putInt("custom_capacity", customCap)
+            } else {
+                editor.remove("custom_capacity")
+            }
+            editor.apply()
 
-            // Ghi custom_capacity ra file nội bộ để BatteryReader đọc
+            // Chỉ ghi đè dung lượng đọc từ máy khi người dùng nhập giá trị tùy chỉnh.
             try {
-                File(filesDir, "custom_capacity.txt").writeText(customCap.toString())
+                val customCapacityFile = File(filesDir, "custom_capacity.txt")
+                if (customCap != null) customCapacityFile.writeText(customCap.toString())
+                else customCapacityFile.delete()
             } catch (e: Exception) {}
 
             showBottomNotice("Đã lưu cài đặt thành công!")

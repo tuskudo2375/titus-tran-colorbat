@@ -68,7 +68,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Dung lượng pin thiết kế (mAh)"
+        android:hint="Dung lượng thiết kế tùy chỉnh (mAh, để trống dùng máy)"
         android:layout_marginBottom="14dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -76,7 +76,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:text="5520"
             android:textColor="@color/text_primary" />
     </com.google.android.material.textfield.TextInputLayout>
 
